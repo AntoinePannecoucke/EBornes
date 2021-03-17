@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">E-Bornes</string>
+    <string name="settings_title">Paramètres</string>
+    <string name="dep_filter_label">Département</string>
+    <string name="filter_title">Filtres</string>
+    <string name="save_btn">Enregistrer</string>
+</resources>
