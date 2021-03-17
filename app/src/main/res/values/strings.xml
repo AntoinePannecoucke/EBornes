@@ -4,4 +4,5 @@
     <string name="dep_filter_label">Department</string>
     <string name="filter_title">Filters</string>
     <string name="save_btn">Save</string>
+    <string name="noLoadMessage">You have not load all the chargers, please use filter to improve the load</string>
 </resources>

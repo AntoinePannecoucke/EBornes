@@ -5,4 +5,5 @@
     <string name="dep_filter_label">Département</string>
     <string name="filter_title">Filtres</string>
     <string name="save_btn">Enregistrer</string>
+    <string name="noLoadMessage">Vous n\'avez pas charger la totalité des bornes. Veuillez utiliser les filtres pour charger les bornes proche de votre position</string>
 </resources>

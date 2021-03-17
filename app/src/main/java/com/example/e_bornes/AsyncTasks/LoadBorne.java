@@ -6,6 +6,7 @@ import android.util.SparseArray;
 
 import com.example.e_bornes.BorneAdapter;
 import com.example.e_bornes.Model.Borne;
+import com.example.e_bornes.Model.ListBornes;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,7 @@ public class LoadBorne extends AsyncTask<Object, Void, Boolean> {
     private static final String KEY_INTEGER = "puiss_max";
     private static final String KEY_COORDINATES = "coordonnees";
     private BorneAdapter adapter;
+    public static int nbItems;
 
     public void onPostExecute(Boolean result){
         adapter.notifyDataSetChanged();
@@ -44,7 +46,7 @@ public class LoadBorne extends AsyncTask<Object, Void, Boolean> {
      */
     @Override
     protected Boolean doInBackground(Object... objects) {
-        ArrayList<Borne> bornes = (ArrayList<Borne>) objects[0];
+        ListBornes bornes = (ListBornes) objects[0];
         adapter = (BorneAdapter) objects[1];
 
         HttpsURLConnection connection = null;
@@ -69,9 +71,9 @@ public class LoadBorne extends AsyncTask<Object, Void, Boolean> {
                 //Parse JSON
                 JSONObject root = new JSONObject(builder.toString());
 
-                if (objects.length > 3) {
-                    objects[3] = root.getInt("nhits");
-                }
+                Log.d("number", "" + root.getInt("nhits"));
+
+                bornes.setNumberMaxBornes(root.getInt("nhits"));
 
                 JSONArray records = root.getJSONArray("records");
                 for (int index = 0; index < records.length(); index++) {
@@ -93,7 +95,7 @@ public class LoadBorne extends AsyncTask<Object, Void, Boolean> {
 
                     Borne borne = new Borne(data, power, coordinates);
 
-                    bornes.add(borne);
+                    bornes.addBorne(borne);
 
                 }
 
