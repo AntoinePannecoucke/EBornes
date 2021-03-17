@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">E-Bornes</string>
+    <string name="settings_title">Settings</string>
+    <string name="dep_filter_label">Department</string>
+    <string name="filter_title">Filters</string>
+    <string name="save_btn">Save</string>
+</resources>
