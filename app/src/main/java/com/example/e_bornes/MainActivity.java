@@ -3,6 +3,7 @@ package com.example.e_bornes;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.BoolRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +13,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -29,12 +32,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e_bornes.AsyncTasks.LoadBorne;
+import com.example.e_bornes.AsyncTasks.LoadBorneFilter;
 import com.example.e_bornes.Model.Borne;
 import com.example.e_bornes.Model.ListBornes;
 import com.google.android.gms.maps.CameraUpdate;
@@ -54,13 +63,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private SupportMapFragment mapFragment;
     private ListBornes bornes;
-    private ImageButton list_btn, map_btn, settings_btn;
     private int currentFirstVisibleItem, currentVisibleItemCount, currentScrollState;
     private boolean isLoading;
     private BorneAdapter adapter;
     private int next_page = 1;
     private ListView listView;
     private ConstraintLayout settings;
+    private EditText zip_input;
+    private SharedPreferences sharedPref;
+    private @SuppressLint("UseSwitchCompatOrMaterialCode") Switch zoom;
 
     private double latitude, longitude;
 
@@ -75,9 +86,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         listView = this.findViewById(R.id.list);
 
+        zip_input = this.findViewById(R.id.zip_input);
+        zoom = this.findViewById(R.id.zoom_switch);
+
         bornes = new ListBornes();
         adapter = new BorneAdapter(MainActivity.this, bornes.getBornes());
-
 
         listView.setAdapter(adapter);
         listView.setOnScrollListener(this);
@@ -87,7 +100,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setOnClickListeners();
 
-        loadBorneLaunch(this);
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
+
+        if (sharedPref.contains(getString(R.string.filter))) {
+            zip_input.setText(sharedPref.getString(getString(R.string.filter), ""));
+            loadBorneFilterLaunch(this, sharedPref.getString(getString(R.string.filter), ""));
+            zoom.setChecked(sharedPref.getBoolean(getString(R.string.zoom), false));
+        } else {
+            loadBorneLaunch(this);
+        }
 
     }
 
@@ -97,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void setOnClickListeners(){
         //Show listView
-        list_btn = findViewById(R.id.list_btn);
+        ImageButton list_btn = findViewById(R.id.list_btn);
         list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         //Show Map
-        map_btn = findViewById(R.id.map_btn);
+        ImageButton map_btn = findViewById(R.id.map_btn);
         map_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     alertDialogBuilder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            return;
                         }
                     });
 
@@ -131,12 +151,47 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        settings_btn = findViewById(R.id.settings_btn);
+        ImageButton settings_btn = findViewById(R.id.settings_btn);
         settings_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listView.setVisibility(ListView.INVISIBLE);
                 settings.setVisibility(ConstraintLayout.VISIBLE);
+            }
+        });
+
+        Button save_settings_btn = findViewById(R.id.save_settings_btn);
+        save_settings_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String filter = zip_input.getText().toString();
+                if (filter.length() == 2 || filter.length() == 5) {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.filter), filter);
+                    editor.apply();
+                    loadBorneFilterLaunch(MainActivity.this, filter);
+                }
+            }
+        });
+
+        Button remove_filter_btn = findViewById(R.id.remove_filter_btn);
+        remove_filter_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                zip_input.setText("");
+                sharedPref.edit().remove(getString(R.string.filter)).apply();
+                bornes.clear();
+                loadBorneLaunch(MainActivity.this);
+            }
+        });
+
+        zoom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Log.d("switch", "onCheckedChanged: ");
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean(getString(R.string.zoom), compoundButton.isChecked());
+                editor.apply();
             }
         });
     }
@@ -148,13 +203,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        googleMap.clear();
         ClusterManager<Borne> clusterManager = new ClusterManager<Borne>(this, googleMap);
         googleMap.setOnCameraIdleListener(clusterManager);
-        googleMap.setOnMarkerClickListener(clusterManager);
+        //googleMap.setOnMarkerClickListener(clusterManager);
 
         clusterManager.addItems(bornes.getBornes());
-
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9.0f));
+        if (sharedPref.getBoolean(getString(R.string.zoom), false)) {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9.0f));
+        }
     }
 
     /**
@@ -198,8 +255,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void isScrollCompleted() {
         if (this.currentVisibleItemCount > 0 && this.currentScrollState == SCROLL_STATE_IDLE &&  this.currentFirstVisibleItem == bornes.getBornes().size() - this.currentVisibleItemCount) {
             if(!isLoading){
-                isLoading = true;
-                loadMoreData();
+                if (bornes.getNumberMaxBornes() > bornes.getBornes().size()) {
+                    isLoading = true;
+                    loadMoreData();
+                }
             }
         }
     }
@@ -264,6 +323,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (checkInternet(context)){
             LoadBorne task = new LoadBorne();
             task.execute(bornes, adapter, 0);
+        }
+        else {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            alertDialogBuilder.setMessage(R.string.InternetCheckMessage);
+            alertDialogBuilder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+    }
+
+    private void loadBorneFilterLaunch(Context context, String filter){
+        if (checkInternet(context)){
+            LoadBorneFilter task = new LoadBorneFilter();
+            bornes.clear();
+            task.execute(bornes, adapter, 0, filter);
         }
         else {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);

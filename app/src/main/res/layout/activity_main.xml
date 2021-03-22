@@ -102,6 +102,42 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
+        <Switch
+            android:id="@+id/zoom_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:text="@string/zoom_switch"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/design_default_color_background"
+            android:textColorLink="@color/logo_background"
+            app:layout_constraintBottom_toTopOf="@+id/save_settings_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingd_title"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/remove_filter_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/outline_btn"
+            android:text="@string/search_all"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#0652C5"
+            app:layout_constraintBottom_toTopOf="@+id/save_settings_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zip_input"
+            app:layout_constraintVertical_bias="1.0" />
+
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
@@ -140,37 +176,60 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/design_default_color_background"
+            app:layout_constraintBottom_toTopOf="@+id/save_settings_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settingd_title" />
+            app:layout_constraintTop_toBottomOf="@+id/settingd_title"
+            app:layout_constraintVertical_bias="0.110000014" />
 
         <EditText
-            android:id="@+id/editTextTextPostalAddress"
+            android:id="@+id/zip_input"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/rounded_text_input"
             android:ems="10"
             android:hint="@string/dep_filter_label"
-            android:inputType="textPostalAddress"
+            android:inputType="number|textPostalAddress"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/design_default_color_background"
             android:textColorHint="@android:color/background_light"
+            app:layout_constraintBottom_toTopOf="@+id/save_settings_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filter_title">
+            app:layout_constraintTop_toBottomOf="@+id/filter_title"
+            app:layout_constraintVertical_bias="0.48000002">
 
 
         </EditText>
 
+        <TextView
+            android:id="@+id/text_explain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/text_explain"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/design_default_color_background"
+            app:layout_constraintBottom_toTopOf="@+id/zip_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filter_title"
+            app:layout_constraintVertical_bias="0.0" />
+
         <Button
-            android:id="@+id/button"
+            android:id="@+id/save_settings_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -182,7 +241,9 @@
             android:textColor="@color/design_default_color_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingd_title"
+            app:layout_constraintVertical_bias="0.57" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

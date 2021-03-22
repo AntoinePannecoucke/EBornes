@@ -2,7 +2,6 @@ package com.example.e_bornes.AsyncTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.example.e_bornes.BorneAdapter;
 import com.example.e_bornes.Model.Borne;
@@ -17,13 +16,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class LoadBorne extends AsyncTask<Object, Void, Boolean> {
+public class LoadBorneFilter extends AsyncTask<Object, Void, Boolean> {
 
-    private static final String API_URL_START = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques-irve&q=&rows=100&start=";
+    private static final String API_URL_START = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=fichier-consolide-des-bornes-de-recharge-pour-vehicules-electriques-irve&q=&rows=1000&start=";
     private static final String API_URL_END ="&facet=accessibilite&facet=code_insee&facet=acces_recharge&facet=ad_station&facet=puiss_max&facet=coordonnees&facet=n_station";
     private static final String ZIP_FILTER_PREFIX = "&refine.code_insee=";
     private static final String DEP_FILTER_PREFIX = "&refine.dep_code=";
@@ -37,20 +35,31 @@ public class LoadBorne extends AsyncTask<Object, Void, Boolean> {
         adapter.notifyDataSetChanged();
     }
 
+
     /**
-     * @param objects [list , adapter, startIndex]
+     * @param objects [list , adapter, startIndex, filter]
      * @return boolean
      */
     @Override
     protected Boolean doInBackground(Object... objects) {
         ListBornes bornes = (ListBornes) objects[0];
         adapter = (BorneAdapter) objects[1];
-
+        String filter = (String) objects[3];
         HttpsURLConnection connection = null;
         try {
+            URL url;
+            switch (filter.length()){
+                case 2:
+                    url = new URL(API_URL_START+ objects[2] + API_URL_END + DEP_FILTER_PREFIX + filter);
+                    break;
+                case 5:
+                    url = new URL(API_URL_START+ objects[2] + API_URL_END + ZIP_FILTER_PREFIX + filter);
+                    break;
+                default:
+                    return false;
+            }
 
-            URL url = new URL(API_URL_START+ objects[2] + API_URL_END);
-             connection = (HttpsURLConnection) url.openConnection();
+            connection = (HttpsURLConnection) url.openConnection();
 
             if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK){
 
@@ -81,15 +90,14 @@ public class LoadBorne extends AsyncTask<Object, Void, Boolean> {
                     for (int i = 0; i < KEYS_STRING.length; i++) {
                         if (fields.has(KEYS_STRING[i])) {
                             data[i] = fields.getString(KEYS_STRING[i]);
-                        }
-                        else {
+                        }else {
                             data[i] = "";
                         }
 
                     }
                     int power = 0;
                     if (fields.has(KEY_INTEGER)) {
-                        power = fields.getInt(KEY_INTEGER);
+                       power = fields.getInt(KEY_INTEGER);
                     }
                     double[] coordinates = new double[2];
                     JSONArray coords = fields.getJSONArray(KEY_COORDINATES);
@@ -131,5 +139,4 @@ public class LoadBorne extends AsyncTask<Object, Void, Boolean> {
 
         return true;
     }
-
 }

@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ListBornes implements Serializable {
-    private ArrayList<Borne> bornes;
+    private ArrayList<Borne> bornes = new ArrayList<>();
     private int numberMaxBornes;
 
     public ListBornes() {
-        bornes = new ArrayList<>();
         numberMaxBornes = 0;
     }
 
@@ -28,5 +27,11 @@ public class ListBornes implements Serializable {
 
     public void setNumberMaxBornes(int numberMaxBornes) {
         this.numberMaxBornes = numberMaxBornes;
+    }
+
+    public void clear() {
+        if (!bornes.isEmpty()) {
+            bornes.clear();
+        }
     }
 }

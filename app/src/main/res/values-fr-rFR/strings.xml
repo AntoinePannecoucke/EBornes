@@ -3,8 +3,11 @@
     <string name="settings_title">Paramètres</string>
     <string name="dep_filter_label">Département</string>
     <string name="filter_title">Filtres</string>
-    <string name="save_btn">Enregistrer</string>
+    <string name="save_btn">Filtrer</string>
     <string name="noLoadMessage">Vous n\'avez pas charger la totalité des bornes. Veuillez utiliser les filtres pour charger les bornes proche de votre position</string>
     <string name="InternetCheckMessage">Veuillez vérifier votre connexion</string>
     <string name="catch_phrase">Développée par Antoine Pannecoucke</string>
+    <string name="text_explain">Vous pouvez rentrer un code départemental ou code postal pour filtrer les bornes chargées par l\'application</string>
+    <string name="search_all">Sans filtre</string>
+    <string name="zoom_switch">Zoom sur soi</string>
 </resources>
