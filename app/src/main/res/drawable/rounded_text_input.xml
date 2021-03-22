@@ -6,7 +6,9 @@
         android:color="@android:color/background_light"
         />
     <corners android:radius="8dp"/>
-    <solid
-        android:color="#3F3F3F"
+    <gradient
+        android:startColor="#B8D3FE"
+        android:endColor="#AECAD6"
+        android:angle="90"
         />
 </shape>

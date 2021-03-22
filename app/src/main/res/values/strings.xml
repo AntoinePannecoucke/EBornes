@@ -1,8 +1,13 @@
 <resources>
-    <string name="app_name">E-Bornes</string>
+    <string name="app_name" translatable="false">E-BORNES</string>
     <string name="settings_title">Settings</string>
     <string name="dep_filter_label">Department</string>
     <string name="filter_title">Filters</string>
     <string name="save_btn">Save</string>
     <string name="noLoadMessage">You have not load all the chargers, please use filter to improve the load</string>
+    <string name="title_activity_splash_screen" translatable="false">FullscreenActivity</string>
+    <string name="dummy_button" translatable="false">Dummy Button</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
+    <string name="InternetCheckMessage">Please check your connection</string>
+    <string name="catch_phrase">Developed by Antoine Pannecoucke</string>
 </resources>

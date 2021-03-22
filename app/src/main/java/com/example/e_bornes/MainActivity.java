@@ -265,6 +265,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LoadBorne task = new LoadBorne();
             task.execute(bornes, adapter, 0);
         }
+        else {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            alertDialogBuilder.setMessage(R.string.InternetCheckMessage);
+            alertDialogBuilder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
     }
 
 }
