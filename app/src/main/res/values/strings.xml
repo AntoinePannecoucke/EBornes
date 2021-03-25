@@ -15,4 +15,5 @@
     <string name="search_all">Without filter</string>
     <string name="zoom_switch">Zoom on you</string>
     <string name="zoom" translatable="false">zoom</string>
+    <string name="power">Maximum power</string>
 </resources>

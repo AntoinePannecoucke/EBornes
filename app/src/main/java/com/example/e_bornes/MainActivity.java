@@ -1,66 +1,47 @@
 package com.example.e_bornes;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.BoolRes;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.state.State;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.e_bornes.AsyncTasks.LoadBorne;
 import com.example.e_bornes.AsyncTasks.LoadBorneFilter;
 import com.example.e_bornes.Model.Borne;
 import com.example.e_bornes.Model.ListBornes;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, AbsListView.OnScrollListener {
 
+    private final int SETTINGS_CODE = 9003;
     private SupportMapFragment mapFragment;
     private ListBornes bornes;
     private int currentFirstVisibleItem, currentVisibleItemCount, currentScrollState;
@@ -110,6 +91,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             loadBorneLaunch(this);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SETTINGS_CODE){
+            if (sharedPref.contains(getString(R.string.filter))) {
+                loadBorneFilterLaunch(this, sharedPref.getString(getString(R.string.filter), ""));
+            } else {
+                loadBorneLaunch(this);
+            }
+        }
     }
 
     /**
@@ -194,6 +188,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 editor.apply();
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(MainActivity.this, ShowBorne.class);
+                intent.putExtra("borne", bornes.getBornes().get(i));
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -268,10 +271,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
 
     private void loadMoreData(){
-        LoadBorne task = new LoadBorne();
-        task.execute(bornes, adapter, next_page*50);
-        next_page++;
-        isLoading = false;
+        if (checkInternet(this)) {
+            LoadBorne task = new LoadBorne();
+            task.execute(bornes, adapter, next_page * 50);
+            next_page++;
+            isLoading = false;
+        }
+        else {
+            showInternetAlert();
+        }
     }
 
     /**
@@ -325,17 +333,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             task.execute(bornes, adapter, 0);
         }
         else {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-            alertDialogBuilder.setMessage(R.string.InternetCheckMessage);
-            alertDialogBuilder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
-                }
-            });
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            showInternetAlert();
         }
     }
 
@@ -346,18 +344,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             task.execute(bornes, adapter, 0, filter);
         }
         else {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-            alertDialogBuilder.setMessage(R.string.InternetCheckMessage);
-            alertDialogBuilder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
-                }
-            });
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            showInternetAlert();
         }
+    }
+
+    public void showInternetAlert(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setMessage(R.string.InternetCheckMessage);
+        alertDialogBuilder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent settingsIntent = new Intent(Settings.ACTION_SETTINGS);
+                startActivityForResult(settingsIntent, SETTINGS_CODE);
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }

@@ -7,8 +7,10 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:visibility="invisible">
 
         <fragment
             android:id="@+id/map"
@@ -16,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"
-            tools:context=".MapsFragment" />
+            tools:context=".MapsFragment"
+            tools:visibility="invisible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -28,7 +31,8 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +53,8 @@
                 android:background="@drawable/nav_theme"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                app:srcCompat="@drawable/ic_baseline_view_list_24" />
+                app:srcCompat="@drawable/ic_baseline_view_list_24"
+                tools:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/map_btn"
@@ -60,7 +65,8 @@
                 android:background="@drawable/nav_theme"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                app:srcCompat="@drawable/ic_baseline_location_on_24" />
+                app:srcCompat="@drawable/ic_baseline_location_on_24"
+                tools:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/settings_btn"
@@ -71,7 +77,8 @@
                 android:background="@drawable/nav_theme"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                app:srcCompat="@drawable/ic_baseline_settings_24" />
+                app:srcCompat="@drawable/ic_baseline_settings_24"
+                tools:visibility="visible" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -86,7 +93,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="invisible">
 
     </ListView>
 
@@ -94,13 +102,13 @@
         android:id="@+id/Parameters"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/bg"
+        android:background="#48C3EB"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/NavBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
+        tools:visibility="invisible">
 
         <Switch
             android:id="@+id/zoom_switch"
@@ -118,7 +126,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingd_title"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:visibility="invisible" />
 
         <Button
             android:id="@+id/remove_filter_btn"
@@ -136,7 +145,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/zip_input"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            tools:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -146,7 +156,8 @@
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_settings_24" />
+            app:srcCompat="@drawable/ic_baseline_settings_24"
+            tools:visibility="invisible" />
 
         <TextView
             android:id="@+id/settingd_title"
@@ -162,7 +173,8 @@
             android:textColor="@color/design_default_color_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="invisible" />
 
         <TextView
             android:id="@+id/filter_title"
@@ -180,7 +192,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingd_title"
-            app:layout_constraintVertical_bias="0.110000014" />
+            app:layout_constraintVertical_bias="0.110000014"
+            tools:visibility="invisible" />
 
         <EditText
             android:id="@+id/zip_input"
@@ -205,7 +218,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filter_title"
-            app:layout_constraintVertical_bias="0.48000002">
+            app:layout_constraintVertical_bias="0.48000002"
+            tools:visibility="invisible">
 
 
         </EditText>
@@ -226,7 +240,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filter_title"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:visibility="invisible" />
 
         <Button
             android:id="@+id/save_settings_btn"
@@ -243,7 +258,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingd_title"
-            app:layout_constraintVertical_bias="0.57" />
+            app:layout_constraintVertical_bias="0.57"
+            tools:visibility="invisible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

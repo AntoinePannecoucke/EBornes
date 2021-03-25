@@ -10,4 +10,5 @@
     <string name="text_explain">Vous pouvez rentrer un code départemental ou code postal pour filtrer les bornes chargées par l\'application</string>
     <string name="search_all">Sans filtre</string>
     <string name="zoom_switch">Zoom sur soi</string>
+    <string name="power">Puissance maximale</string>
 </resources>

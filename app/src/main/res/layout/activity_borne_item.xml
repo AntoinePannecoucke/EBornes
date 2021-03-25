@@ -17,8 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rounded_item">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -31,7 +30,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_ev_station_24" />
+                app:srcCompat="@drawable/ic_baseline_ev_station_24_blue" />
 
             <TextView
                 android:id="@+id/acessibility_item"
@@ -41,7 +40,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:textAlignment="center"
-                android:textColor="@color/design_default_color_background"
+                android:textColor="@color/design_default_color_on_secondary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -55,7 +54,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:textAlignment="center"
-                android:textColor="@color/design_default_color_background"
+                android:textColor="@color/design_default_color_on_secondary"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
