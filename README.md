@@ -1,9 +1,9 @@
 # E-Bornes
 ## Table of contents
-* [Informations générales](#Informations-générales)
+* [Informations générales](#informations-générales)
 * [Technologies](#technologies)
-* [Modules](#Modules)
-* [Vidéo de Présentation](#Vidéo-de-Présentation)
+* [Modules](#modules)
+* [Vidéo de Présentation](#vidéo-de-présentation)
 
 ## Informations générales
 Application qui montre les bornes de recharges pour voitures électriques en France métropolitaine
@@ -39,5 +39,4 @@ Vérification du status de la connexion avant chaque requête, redirection vers 
 * <img src="https://user-images.githubusercontent.com/60757025/112488702-16a15680-8d7e-11eb-899a-4c9a80b8bc2c.jpg" width="40%">
 
 ## Vidéo de Présentation
-
-
+[![Vidéo Présentation](https://youtu.be/Nowq9r1YrOo)](https://www.youtube.com/watch?v=Nowq9r1YrOo "SC2 Mini game - Click to Watch!")
