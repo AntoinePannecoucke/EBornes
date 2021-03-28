@@ -7,8 +7,10 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:visibility="invisible">
 
         <fragment
             android:id="@+id/map"
@@ -16,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"
-            tools:context=".MapsFragment" />
+            tools:context=".MapsFragment"
+            tools:visibility="invisible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -24,14 +27,17 @@
         android:id="@+id/NavBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/splash_screen_theme"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/button_theme"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,10 +50,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/nav_theme"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                app:srcCompat="@drawable/ic_baseline_view_list_24" />
+                app:srcCompat="@drawable/ic_baseline_view_list_24"
+                tools:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/map_btn"
@@ -55,10 +62,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/nav_theme"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                app:srcCompat="@drawable/ic_baseline_location_on_24" />
+                app:srcCompat="@drawable/ic_baseline_location_on_24"
+                tools:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/settings_btn"
@@ -66,10 +74,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/nav_theme"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                app:srcCompat="@drawable/ic_baseline_settings_24" />
+                app:srcCompat="@drawable/ic_baseline_settings_24"
+                tools:visibility="visible" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,7 +93,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="invisible">
 
     </ListView>
 
@@ -92,13 +102,51 @@
         android:id="@+id/Parameters"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@android:color/background_dark"
+        android:background="#48C3EB"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/NavBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
+        tools:visibility="invisible">
+
+        <Switch
+            android:id="@+id/zoom_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:text="@string/zoom_switch"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/design_default_color_background"
+            android:textColorLink="@color/logo_background"
+            app:layout_constraintBottom_toTopOf="@+id/save_settings_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingd_title"
+            app:layout_constraintVertical_bias="0.0"
+            tools:visibility="invisible" />
+
+        <Button
+            android:id="@+id/remove_filter_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/outline_btn"
+            android:text="@string/search_all"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#0652C5"
+            app:layout_constraintBottom_toTopOf="@+id/save_settings_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zip_input"
+            app:layout_constraintVertical_bias="1.0"
+            tools:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -108,7 +156,8 @@
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_settings_24" />
+            app:srcCompat="@drawable/ic_baseline_settings_24"
+            tools:visibility="invisible" />
 
         <TextView
             android:id="@+id/settingd_title"
@@ -124,7 +173,8 @@
             android:textColor="@color/design_default_color_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="invisible" />
 
         <TextView
             android:id="@+id/filter_title"
@@ -138,49 +188,78 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/design_default_color_background"
+            app:layout_constraintBottom_toTopOf="@+id/save_settings_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settingd_title" />
+            app:layout_constraintTop_toBottomOf="@+id/settingd_title"
+            app:layout_constraintVertical_bias="0.110000014"
+            tools:visibility="invisible" />
 
         <EditText
-            android:id="@+id/editTextTextPostalAddress"
+            android:id="@+id/zip_input"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/rounded_text_input"
             android:ems="10"
             android:hint="@string/dep_filter_label"
-            android:inputType="textPostalAddress"
+            android:inputType="number|textPostalAddress"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/design_default_color_background"
             android:textColorHint="@android:color/background_light"
+            app:layout_constraintBottom_toTopOf="@+id/save_settings_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filter_title">
+            app:layout_constraintTop_toBottomOf="@+id/filter_title"
+            app:layout_constraintVertical_bias="0.48000002"
+            tools:visibility="invisible">
 
 
         </EditText>
 
+        <TextView
+            android:id="@+id/text_explain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/text_explain"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/design_default_color_background"
+            app:layout_constraintBottom_toTopOf="@+id/zip_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filter_title"
+            app:layout_constraintVertical_bias="0.0"
+            tools:visibility="invisible" />
+
         <Button
-            android:id="@+id/button"
+            android:id="@+id/save_settings_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="24dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/button_theme"
             android:text="@string/save_btn"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/design_default_color_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingd_title"
+            app:layout_constraintVertical_bias="0.57"
+            tools:visibility="invisible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

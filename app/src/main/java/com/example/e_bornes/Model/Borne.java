@@ -50,4 +50,16 @@ public class Borne implements Serializable, ClusterItem {
     public String getSnippet() {
         return null;
     }
+
+    public String getAddress(){
+        return address + " " + zip;
+    }
+
+    public String getAccess(){
+        return access;
+    }
+
+    public int getPower() {
+        return max_power;
+    }
 }
